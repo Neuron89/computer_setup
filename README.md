@@ -61,10 +61,10 @@ Passwords are stored temporarily under `%ProgramData%\ComputerSetup\state.json`,
 
 ## Zero-install bootstrap
 
-If the target machine only has PowerShell and internet access, use `bootstrap.ps1`:
+Run `bootstrap.ps1` from an elevated PowerShell session on a freshly imaged machine:
 
 ```powershell
-iwr https://raw.githubusercontent.com/<your-org>/computer-setup/main/bootstrap.ps1 `
+iwr https://raw.githubusercontent.com/Neuron89/computer_setup/main/bootstrap.ps1 `
     -UseBasicParsing | iex
 
 bootstrap -Domain nycoa -AssignedUser johndoe `
@@ -72,13 +72,22 @@ bootstrap -Domain nycoa -AssignedUser johndoe `
     -GoogleCredentials \\fileserver\secure\service-account.json
 ```
 
-The bootstrap script:
+What the script does:
 
-- Verifies the session is elevated.
-- Installs `uv` if absent.
-- Executes `uvx git+https://github.com/<your-org>/computer-setup.git -- initial-run ...`
+- Confirms the shell is elevated before proceeding.
+- Installs `uv` via the official installer when it is not already present.
+- Invokes `uvx git+https://github.com/Neuron89/computer_setup.git -- initial-run ...` with the parameters you supply.
 
-Adjust the repository URL and defaults inside `bootstrap.ps1` to match your GitHub organisation.
+Key parameters:
 
-Secrets are stored under `%ProgramData%\ComputerSetup\` encrypted with the Windows Data Protection API (machine scope).
+- `-Domain`: domain slug matching an entry in `config.json`.
+- `-AssignedUser`: person receiving the workstation (written to Google Sheets).
+- `-ConfigPath`: path to the populated `config.json` (defaults to `config/config.json`).
+- `-GoogleCredentials`: optional override for the service account JSON path.
+- `-InitialUser`: optional override for the temporary build account (`$env:USERNAME` by default).
+- `-LocalAdmin`: optional override for the permanent admin account name (`WorkstationAdmin` by default).
+- `-StatePath`: optional override for where bootstrap should persist state between reboots.
+- `-Repository`: alternate git source passed directly to `uvx` if you maintain a fork.
+
+Secrets collected during execution live under `%ProgramData%\ComputerSetup\` and are encrypted with the Windows Data Protection API (machine scope) until the `post-login` phase removes them.
 

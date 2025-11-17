@@ -31,7 +31,7 @@ param(
 
     [string]$StatePath,
 
-    [string]$Repository = "git+https://github.com/<your-org>/computer-setup.git"
+    [string]$Repository = "https://github.com/Neuron89/computer_setup.git"
 )
 
 function Assert-Elevated {
