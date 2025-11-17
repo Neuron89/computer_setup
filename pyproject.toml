@@ -1,0 +1,18 @@
+[project]
+name = "computer-setup"
+version = "0.1.0"
+description = "Automated Windows workstation provisioning helper"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "gspread>=6.0.0",
+  "google-auth>=2.0.0"
+]
+
+[project.scripts]
+computer-setup = "computer_setup.cli:main"
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+

@@ -1,0 +1,18 @@
+{
+  "google_credentials": "C:/Secure/service-account.json",
+  "domains": {
+    "nycoa": {
+      "sheet_id": "PUT_GOOGLE_SHEET_ID_HERE",
+      "worksheet": "Devices",
+      "hostname_template": "{seq:03d}-{user}",
+      "ou_path": "OU=Workstations,DC=nycoa,DC=local"
+    },
+    "shawsheen": {
+      "sheet_id": "PUT_OTHER_SHEET_ID_HERE",
+      "worksheet": "Devices",
+      "hostname_template": "{seq:03d}-{user}",
+      "ou_path": "OU=Computers,DC=shawsheencc,DC=com"
+    }
+  }
+}
+
